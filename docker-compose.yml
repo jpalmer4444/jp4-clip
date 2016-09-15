@@ -1,0 +1,8 @@
+version: '2'
+services:
+  edw-daily:
+    image: ""
+    cpu_shares: 300
+    mem_limit: 524288000
+    ports:
+      - "80:80"

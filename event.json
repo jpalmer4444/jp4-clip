@@ -1,0 +1,16 @@
+{
+    "stage": "prod",
+    "handler": "jp4-clip",
+    "TEST_RESIZE_1_JPG": "./resources/TEST_RESIZE_1.jpg",
+    "TEST_RESIZE_1_PNG": "./resources/TEST_RESIZE_1.png",
+    "TEST_RESIZE_1_TIF": "./resources/TEST_RESIZE_1.tif",
+    "TEST_SIZE_1_JPG": "./resources/TEST_SIZE_1.jpg",
+    "TEST_SIZE_1_PNG": "./resources/TEST_SIZE_1.png",
+    "TEST_SIZE_1_TIF": "./resources/TEST_SIZE_1.tif",
+    "TEST_RESIZE_2_JPG": "./resources/TEST_RESIZE_2.jpg",
+    "TEST_RESIZE_2_PNG": "./resources/TEST_RESIZE_2.png",
+    "TEST_RESIZE_2_TIF": "./resources/TEST_RESIZE_2.tif",
+    "TEST_SIZE_2_JPG": "./resources/TEST_SIZE_2.jpg",
+    "TEST_SIZE_2_PNG": "./resources/TEST_SIZE_2.png",
+    "TEST_SIZE_2_TIF": "./resources/TEST_SIZE_2.tif"
+}

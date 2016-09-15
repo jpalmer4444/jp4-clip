@@ -1,0 +1,26 @@
+{
+  "name": "jp4-clip",
+  "version": "1.0.0",
+  "keywords": [
+    "metadata"
+  ],
+  "author": "jpalmer",
+  "contributors": [],
+  "dependencies": {
+    "async": "^2.0.1",
+    "bluebird": "^3.4.6",
+    "buffered-reader": "^1.0.1",
+    "chai": "^3.5.0",
+    "expect": "^1.20.2",
+    "fs": "0.0.1-security",
+    "fs-extra": "^0.30.0",
+    "image-headers": "^0.3.3",
+    "tracer": "^0.8.3"
+  },
+  "devDependencies": {
+    "aws-sdk": "latest",
+    "mocha": "^3.0.2",
+    "node-lambda": "0.8.0",
+    "npm": "^2.8.3"
+  }
+}
