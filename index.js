@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 var LOG = require('./lib/logging').getLogger(),
+        TiffByteReader = require("./lib/TiffByteReader").TiffByteReader,
         readImageFile = require("./lib/readImageFile"),
         LOCAL = require("./lib/local");
 
@@ -18,7 +19,18 @@ exports.handler = function (event, context, CALLBACK) {
     context = local.context;
     CALLBACK = local.CALLBACK;
     
-    readImageFile.read_file(local.event['TEST_SIZE_2_JPG'], function(err, headers){
+    /*readImageFile.read_file(local.event['TEST_RESIZE_2_TIF'], function(err, headers){
+        if(err){
+            LOG.error(JSON.stringify(err), err.stack);
+            CALLBACK(err, err.stack);
+        }else{
+            LOG.info('We have metadata!');
+            console.log(JSON.stringify(headers));
+        }
+    });*/
+    
+    let tiffByteReader = new TiffByteReader();
+    tiffByteReader.read(local.event['TEST_RESIZE_2_TIF'], function(err, headers){
         if(err){
             LOG.error(JSON.stringify(err), err.stack);
             CALLBACK(err, err.stack);
@@ -30,3 +42,6 @@ exports.handler = function (event, context, CALLBACK) {
     
     
 };
+
+//to run from command line.
+exports.handler();
