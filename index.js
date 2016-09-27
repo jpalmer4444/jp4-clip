@@ -5,7 +5,6 @@
  */
 var LOG = require('./lib/logging').getLogger(),
         TiffByteReader = require("./lib/TiffByteReader").TiffByteReader,
-        readImageFile = require("./lib/readImageFile"),
         LOCAL = require("./lib/local");
 
 var localize = function(event, context, CALLBACK){
@@ -30,13 +29,29 @@ exports.handler = function (event, context, CALLBACK) {
     });*/
     
     let tiffByteReader = new TiffByteReader();
-    tiffByteReader.read(local.event['TEST_RESIZE_2_TIF'], function(err, headers){
+    tiffByteReader.read(0, local.event['TEST_RESIZE_2_TIF'], function(err, headers){
         if(err){
             LOG.error(JSON.stringify(err), err.stack);
             CALLBACK(err, err.stack);
+            process.exit();
         }else{
-            LOG.info('We have metadata!');
-            console.log(JSON.stringify(headers));
+            
+            /**
+             * Could continue to read any more IFDs found by checking if one exists...
+             * let anotherIfd = tiffByteReader.nextIfdOffset > 0
+             * if(anotherIfd){
+             *  tiffByteReader(tiffByteReader.nextIfdOffset, local.event['TEST_RESIZE_2_TIF'], (err, results)=>{
+             *      if(err){
+                        LOG.error(JSON.stringify(err), err.stack);
+                        CALLBACK(err, err.stack);
+                    }else{
+                        //repeatamente...
+                    }
+             *  });
+             * }
+             */
+            
+            process.exit();
         }
     });
     
