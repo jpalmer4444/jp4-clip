@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 var LOG = require('./lib/logging').getLogger(),
-        TiffByteReader = require("./lib/TiffByteReader").TiffByteReader,
+        //TiffByteReader = require("./lib/TiffByteReader").TiffByteReader,
+        TiffPSByteReader = require("./lib/TiffPSByteReader").TiffPSByteReader,
         LOCAL = require("./lib/local");
 
 var localize = function(event, context, CALLBACK){
@@ -18,38 +19,18 @@ exports.handler = function (event, context, CALLBACK) {
     context = local.context;
     CALLBACK = local.CALLBACK;
     
-    /*readImageFile.read_file(local.event['TEST_RESIZE_2_TIF'], function(err, headers){
-        if(err){
-            LOG.error(JSON.stringify(err), err.stack);
-            CALLBACK(err, err.stack);
-        }else{
-            LOG.info('We have metadata!');
-            console.log(JSON.stringify(headers));
-        }
-    });*/
+    let path = local.event['TEST_RESIZE_3_TIF'];
+    let filename = path.substring(path.lastIndexOf('/')+1, path.length);
+    let directory = path.substring(0, path.lastIndexOf('/')+1);
     
-    let tiffByteReader = new TiffByteReader();
-    tiffByteReader.read(0, local.event['TEST_RESIZE_2_TIF'], function(err, headers){
+    //let tiffByteReader = new TiffByteReader();
+    let tiffByteReader = new TiffPSByteReader(filename, directory);
+    tiffByteReader.read(0, path, function(err, headers){
         if(err){
             LOG.error(JSON.stringify(err), err.stack);
             CALLBACK(err, err.stack);
             process.exit();
         }else{
-            
-            /**
-             * Could continue to read any more IFDs found by checking if one exists...
-             * let anotherIfd = tiffByteReader.nextIfdOffset > 0
-             * if(anotherIfd){
-             *  tiffByteReader(tiffByteReader.nextIfdOffset, local.event['TEST_RESIZE_2_TIF'], (err, results)=>{
-             *      if(err){
-                        LOG.error(JSON.stringify(err), err.stack);
-                        CALLBACK(err, err.stack);
-                    }else{
-                        //repeatamente...
-                    }
-             *  });
-             * }
-             */
             
             process.exit();
         }
