@@ -3,18 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var LOG = require('./lib/logging').getLogger(),
+let LOG = require('./lib/logging').getLogger();
         //TiffByteReader = require("./lib/TiffByteReader").TiffByteReader,
-        TiffPSByteReader = require("./lib/TiffPSByteReader").TiffPSByteReader,
-        LOCAL = require("./lib/local");
+        let TiffPSByteReader = require("./lib/TiffPSByteReader").TiffPSByteReader;
+        let LOCAL = require("./lib/local");
 
-var localize = function(event, context, CALLBACK){
+let localize = function(event, context, CALLBACK){
     return LOCAL.handler(event, context, CALLBACK);
 };
 
+let iterationLimit = 5;//maximum anticipated number of IFDs expected. Increase for multipage tiffs.
+let iterations = 0;
+
 exports.handler = function (event, context, CALLBACK) {
-    
-    var local = localize(event, context, CALLBACK);
+    let local = localize(event, context, CALLBACK);
     event = local.event;
     context = local.context;
     CALLBACK = local.CALLBACK;
@@ -25,14 +27,31 @@ exports.handler = function (event, context, CALLBACK) {
     
     //let tiffByteReader = new TiffByteReader();
     let tiffByteReader = new TiffPSByteReader(filename, directory);
-    tiffByteReader.read(0, path, function(err, headers){
+    let ifdOffset = event.ifdOffset ? ifdOffset : 0;
+    tiffByteReader.read(ifdOffset, path, function(err, ifd0){
         if(err){
             LOG.error(JSON.stringify(err), err.stack);
             CALLBACK(err, err.stack);
             process.exit();
         }else{
-            
-            process.exit();
+            let photoshopImageResourceBlock = ifd0.getEntry(34377);
+            if(photoshopImageResourceBlock){
+                let clippingPathPoints = photoshopImageResourceBlock.value.getPhotoshopEntry(2000).resources;
+                
+                LOG.info('Found Points!');
+            }
+            if(ifd0.ifdOffset){
+                event.ifdOffset = ifd0.ifdOffset;
+                iterations++;
+                if(iterations < iterationLimit){
+                    
+                    LOG.info('Reading next IFD');
+                    exports.handler(event, context, CALLBACK);
+                }
+            }else{
+                LOG.info('Finished reading TIF');
+                process.exit();
+            }
         }
     });
     

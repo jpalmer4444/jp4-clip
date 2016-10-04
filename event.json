@@ -11,6 +11,7 @@
     "TEST_RESIZE_2_PNG": "./resources/TEST_RESIZE_2.png",
     "TEST_RESIZE_2_TIF": "./resources/TEST_RESIZE_2.tif",
     "TEST_RESIZE_3_TIF": "./resources/TEST_RESIZE_3.tif",
+    "BAD_CLIP_TIF": "./resources/BAD_CLIP.tif",
     "TEST_SIZE_2_JPG": "./resources/TEST_SIZE_2.jpg",
     "TEST_SIZE_2_PNG": "./resources/TEST_SIZE_2.png",
     "TEST_SIZE_2_TIF": "./resources/TEST_SIZE_2.tif"
